@@ -87,7 +87,8 @@ def download_all():
     os.makedirs("data/style", exist_ok=True)
     os.makedirs("data/metadata", exist_ok=True)
 
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+    import time
+    headers = {"User-Agent": "NeuralStyleTransferBot/1.0 (Educational NST Project; https://github.com)"}
 
     results = []
     for item in DATA_ITEMS:
@@ -95,6 +96,7 @@ def download_all():
         if os.path.exists(dest) and os.path.getsize(dest) > 1000:
             print(f"File already exists: {dest}")
         else:
+            time.sleep(1.5)
             print(f"Downloading {item['title']} -> {dest} ...")
             req = urllib.request.Request(item["download_url"], headers=headers)
             with urllib.request.urlopen(req) as resp, open(dest, "wb") as f:
