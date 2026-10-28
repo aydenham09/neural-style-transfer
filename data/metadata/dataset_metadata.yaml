@@ -1,0 +1,92 @@
+content_images:
+- title: View of Mount Rainier
+  creator: WqemenW (Contributor)
+  year: 2023
+  category: content
+  filename: landscape_mountain.jpg
+  path: data/content/landscape_mountain.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:View_of_Mount_Rainier.jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/c/ce/View_of_Mount_Rainier.jpg
+  license: Creative Commons CC0 1.0 Universal Public Domain Dedication
+  dimensions:
+    width: 3520
+    height: 1980
+  channels: 3
+  format: JPEG
+  size_kb: 2547.03
+- title: Crater Lake from Rim
+  creator: United States Geological Survey (USGS)
+  year: 1982
+  category: content
+  filename: landscape_lake.jpg
+  path: data/content/landscape_lake.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:Crater_Lake_from_rim-USGS.jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/e/e1/Crater_Lake_from_rim-USGS.jpg
+  license: Public Domain (US Federal Government work)
+  dimensions:
+    width: 3275
+    height: 2160
+  channels: 3
+  format: JPEG
+  size_kb: 1130.38
+- title: Coastal Redwood Forest (REDW9339)
+  creator: National Park Service (NPS) Digital Image Archives
+  year: Unknown (NPS Archive)
+  category: content
+  filename: landscape_forest.jpg
+  path: data/content/landscape_forest.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:Redwood_National_Park_REDW9339.jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/1/1f/Redwood_National_Park_REDW9339.jpg
+  license: Public Domain (US Federal Government work)
+  dimensions:
+    width: 2960
+    height: 2014
+  channels: 3
+  format: JPEG
+  size_kb: 3120.73
+style_images:
+- title: Wheat Field with Cypresses
+  creator: Vincent van Gogh
+  year: 1889
+  category: style
+  filename: style_van_gogh.jpg
+  path: data/style/style_van_gogh.jpg
+  source_url: https://www.metmuseum.org/art/collection/search/436535
+  download_url: https://images.metmuseum.org/CRDImages/ep/original/DP-42549-001.jpg
+  license: Met Open Access (CC0 / Public Domain)
+  dimensions:
+    width: 4000
+    height: 3184
+  channels: 3
+  format: JPEG
+  size_kb: 8096.87
+- title: The Great Wave off Kanagawa (Under the Wave off Kanagawa)
+  creator: Katsushika Hokusai
+  year: ca. 1830-1832
+  category: style
+  filename: style_hokusai.jpg
+  path: data/style/style_hokusai.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:Tsunami_by_hokusai_19th_century.jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/a/a5/Tsunami_by_hokusai_19th_century.jpg
+  license: Public Domain
+  dimensions:
+    width: 3859
+    height: 2594
+  channels: 3
+  format: JPEG
+  size_kb: 2299.01
+- title: Composition 8 (Komposition 8)
+  creator: Wassily Kandinsky
+  year: 1923
+  category: style
+  filename: style_kandinsky.jpg
+  path: data/style/style_kandinsky.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:Kandinsky_-_Composition_8,_July_1923.jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/8/80/Kandinsky_-_Composition_8%2C_July_1923.jpg
+  license: Public Domain
+  dimensions:
+    width: 3911
+    height: 2849
+  channels: 3
+  format: JPEG
+  size_kb: 3106.13
