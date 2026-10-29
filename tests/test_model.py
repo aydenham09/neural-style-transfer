@@ -100,26 +100,26 @@ class TestVGG19FeatureExtractor(unittest.TestCase):
                 f"Layer {name} index mismatch: expected {expected_idx}, got {VGG19_LAYER_INDEX_MAP[name]}"
             )
 
-    def test_05_normalization_detection_and_prevention(self):
-        """Verify single ImageNet normalization even when attributes are stripped."""
+    def test_05_normalization_contract_and_execution(self):
+        """Verify explicit normalization contract: RGB float [0, 1] is normalized once inside extractor."""
         # 1. Raw image tensor in [0, 1]
         raw_tensor = torch.rand(1, 3, 100, 100, device=self.device)
         self.assertFalse(is_tensor_imagenet_normalized(raw_tensor))
 
-        # 2. Normalized tensor
+        # 2. Manual normalize() transforms [0, 1] to ImageNet mean/std space
         norm_tensor = self.extractor.normalize(raw_tensor)
         self.assertTrue(is_tensor_imagenet_normalized(norm_tensor))
+        # ImageNet mean is ~0.45; subtracting from 0 gives negative minimum
+        self.assertLess(norm_tensor.min().item(), 0.0)
 
-        # 3. Simulate attribute stripping via clone / arithmetic
-        stripped_norm = norm_tensor.clone() + 0.0
-        # If attribute was attached, arithmetic usually drops it:
-        has_attr = hasattr(stripped_norm, "_is_imagenet_normalized")
-        print(f"Attribute survived arithmetic? {has_attr}")
-        # Even without attribute, our robust function MUST detect it as normalized!
-        self.assertTrue(
-            is_tensor_imagenet_normalized(stripped_norm),
-            "Stripped normalized tensor must still be recognized via numerical distribution!"
-        )
+        # 3. Contract: extractor.forward() normalizes raw [0, 1] tensor by default
+        feats_from_raw = self.extractor(raw_tensor, layers=["conv1_1"])
+        self.assertIn("conv1_1", feats_from_raw)
+        self.assertTrue(torch.isfinite(feats_from_raw["conv1_1"]).all().item())
+
+        # 4. Extractor with normalize=False allows pre-normalized tensor without re-normalizing
+        feats_from_norm = self.extractor(norm_tensor, layers=["conv1_1"], normalize=False)
+        self.assertTrue(torch.allclose(feats_from_raw["conv1_1"], feats_from_norm["conv1_1"], atol=1e-5))
 
     def test_06_feature_extraction_landscape_image(self):
         """Test feature extraction on landscape photo with max dimension 256."""

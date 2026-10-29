@@ -1,5 +1,15 @@
 # Metadata Referensi Gaya Lukisan untuk Neural Style Transfer
-# Karakteristik visual membantu dalam penentuan layer VGG-19 dan bobot transfer gaya.
+# Catatan: File ini berfungsi sebagai dokumentasi kurasi karakteristik visual dan referensi teoritis.
+# File ini tidak dimuat secara dinamis oleh runtime aplikasi/demo (aplikasi menggunakan konstanta terverifikasi di src/model.py).
+#
+# Seluruh konfigurasi baseline terverifikasi proyek menggunakan:
+#   - default_content_layer: "conv4_2"
+#   - default_style_layers: ["conv1_1", "conv2_1", "conv3_1", "conv4_1", "conv5_1"]
+#   - default_style_weight: 1.0e5 (100000.0)
+#   - default_content_weight: 1.0
+#   - default_tv_weight: 0.0
+# Variasi layer atau bobot lain yang tercantum di bawah ini merupakan hipotesis visual/teoritis
+# dan BELUM diuji secara sistematis, sehingga TIDAK BOLEH diklaim sebagai konfigurasi optimal.
 
 van_gogh:
   title: "Wheat Field with Cypresses"
@@ -9,9 +19,12 @@ van_gogh:
   key_visual_features:
     - "Sapuan kuas tebal melengkung berputar (impasto technique)"
     - "Palet warna hangat kuning gandum berpadu dengan hijau tua pohon cemara dan biru langit turbulen"
-    - "Fokus gaya: Tekstur kuas dinamis di layer conv1_1 sampai conv3_1"
-  recommended_style_layers: ["conv_1_1", "conv_2_1", "conv_3_1", "conv_4_1", "conv_5_1"]
-  default_style_weight: 1.0e6
+    - "Fokus gaya: Tekstur kuas dinamis kuat di layer awal hingga menengah (conv1_1 sampai conv3_1)"
+  default_content_layer: "conv4_2"
+  default_style_layers: ["conv1_1", "conv2_1", "conv3_1", "conv4_1", "conv5_1"]
+  default_style_weight: 1.0e5
+  theoretical_explorations:
+    notes: "Hipotesis teoritis fokus tekstur sapuan kuas; belum diuji secara sistematis, bukan konfigurasi optimal."
 
 hokusai:
   title: "The Great Wave off Kanagawa"
@@ -23,8 +36,11 @@ hokusai:
     - "Busa ombak berujung cakar (claw-like spray)"
     - "Palet warna terbatas: Prussian Blue, krem kertas washi, dan putih busa"
     - "Fokus gaya: Garis tepi tajam dan bidang warna datar (flat color fills)"
-  recommended_style_layers: ["conv_1_1", "conv_2_1", "conv_3_1", "conv_4_1"]
-  default_style_weight: 5.0e5
+  default_content_layer: "conv4_2"
+  default_style_layers: ["conv1_1", "conv2_1", "conv3_1", "conv4_1", "conv5_1"]
+  default_style_weight: 1.0e5
+  theoretical_explorations:
+    notes: "Hipotesis teoritis reduksi layer tinggi untuk menonjolkan garis kontur; belum diuji secara sistematis, bukan konfigurasi optimal."
 
 kandinsky:
   title: "Composition 8"
@@ -35,6 +51,8 @@ kandinsky:
     - "Elemen geometris tajam: lingkaran, segitiga, garis lurus bersilangan, checkerboard"
     - "Kontras warna primer dan sekunder yang kontras tinggi di atas latar krem netral"
     - "Fokus gaya: Fitur representasi bentuk tingkat menengah ke tinggi (conv3_1, conv4_1)"
-  recommended_style_layers: ["conv_2_1", "conv_3_1", "conv_4_1", "conv_5_1"]
-  default_style_weight: 2.0e6
-
+  default_content_layer: "conv4_2"
+  default_style_layers: ["conv1_1", "conv2_1", "conv3_1", "conv4_1", "conv5_1"]
+  default_style_weight: 1.0e5
+  theoretical_explorations:
+    notes: "Hipotesis teoritis penekanan layer tengah ke atas untuk struktur geometris; belum diuji secara sistematis, bukan konfigurasi optimal."

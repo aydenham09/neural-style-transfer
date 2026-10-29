@@ -31,12 +31,18 @@ from src.loss import (
     TotalVariationLoss,
     NSTLoss,
 )
+from src import transfer
+from src.transfer import (
+    StyleTransferOptimizer,
+    run_single_transfer,
+)
 
 __version__ = "0.1.0"
 __all__ = [
     "utils",
     "model",
     "loss",
+    "transfer",
     "get_device",
     "load_image",
     "image_to_tensor",
@@ -57,4 +63,6 @@ __all__ = [
     "StyleLoss",
     "TotalVariationLoss",
     "NSTLoss",
+    "StyleTransferOptimizer",
+    "run_single_transfer",
 ]

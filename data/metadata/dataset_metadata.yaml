@@ -3,6 +3,8 @@ content_images:
   creator: WqemenW (Contributor)
   year: 2023
   category: content
+  tag: gunung
+  label_id: "Gunung (Mount Rainier)"
   filename: landscape_mountain.jpg
   path: data/content/landscape_mountain.jpg
   source_url: https://commons.wikimedia.org/wiki/File:View_of_Mount_Rainier.jpg
@@ -14,10 +16,14 @@ content_images:
   channels: 3
   format: JPEG
   size_kb: 2547.03
+  notes: Lanskap pegunungan bersalju dengan kontur puncak tajam dan langit bersih
+
 - title: Crater Lake from Rim
   creator: United States Geological Survey (USGS)
   year: 1982
   category: content
+  tag: danau
+  label_id: "Danau (Crater Lake)"
   filename: landscape_lake.jpg
   path: data/content/landscape_lake.jpg
   source_url: https://commons.wikimedia.org/wiki/File:Crater_Lake_from_rim-USGS.jpg
@@ -29,10 +35,14 @@ content_images:
   channels: 3
   format: JPEG
   size_kb: 1130.38
-- title: Coastal Redwood Forest (REDW9339)
+  notes: Lanskap danau kawah vulkanik biru pekat dengan pulau Wizard Island
+
+- title: Coastal Redwood Shore (REDW9339)
   creator: National Park Service (NPS) Digital Image Archives
   year: Unknown (NPS Archive)
   category: content
+  tag: pesisir_berpohon
+  label_id: "Pesisir Berpohon Redwood (Coastal Shore)"
   filename: landscape_forest.jpg
   path: data/content/landscape_forest.jpg
   source_url: https://commons.wikimedia.org/wiki/File:Redwood_National_Park_REDW9339.jpg
@@ -44,11 +54,114 @@ content_images:
   channels: 3
   format: JPEG
   size_kb: 3120.73
+  notes: Lanskap pesisir berbatu dengan jajaran pohon redwood di tepian (bukan interior hutan)
+
+- title: Cloudy Beach with Crashing Waves
+  creator: James Wheeler
+  year: 2016
+  category: content
+  tag: pantai_berombak
+  label_id: "Pantai Berombak (Crashing Waves Beach)"
+  filename: landscape_beach_waves.jpg
+  path: data/content/landscape_beach_waves.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:Cloudy_beach_with_wrack_and_crashing_waves.jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/9/91/Cloudy_beach_with_wrack_and_crashing_waves.jpg
+  license: Creative Commons CC0 1.0 Universal Public Domain Dedication
+  dimensions:
+    width: 5292
+    height: 3528
+  channels: 3
+  format: JPEG
+  size_kb: 4221.2
+  notes: Pantai luas dengan ombak laut berbusa putih memecah di atas pasir basah
+
+- title: Rocky Coast at Queen's Bath
+  creator: Austin Schmid
+  year: 2016
+  category: content
+  tag: laut_berbatu
+  label_id: "Laut Berbatu (Rocky Coast / Sea)"
+  filename: landscape_rocky_sea.jpg
+  path: data/content/landscape_rocky_sea.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:Rocky_coast_(Unsplash).jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/e/e4/Rocky_coast_%28Unsplash%29.jpg
+  license: Creative Commons CC0 1.0 Universal Public Domain Dedication
+  dimensions:
+    width: 3728
+    height: 2481
+  channels: 3
+  format: JPEG
+  size_kb: 3114.7
+  notes: Tebing karang laut berbatu hitam dengan deburan ombak laut biru tua
+
+- title: Rice Terraces in Indonesia
+  creator: Dohduhdah
+  year_taken: 2011
+  date_taken: "2011-05-30"
+  year_uploaded: 2011
+  date_uploaded: "2011-11-29"
+  year: 2011 (taken: 2011-05-30, uploaded: 2011-11-29)
+  category: content
+  tag: sawah_padang_rumput
+  label_id: "Sawah / Padang Berundak (Rice Terraces)"
+  filename: landscape_rice_terrace.jpg
+  path: data/content/landscape_rice_terrace.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:Rice_terraces_in_Indonesia-IMG_3082.jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/a/a4/Rice_terraces_in_Indonesia-IMG_3082.jpg
+  license: Public Domain (PD-self)
+  dimensions:
+    width: 2592
+    height: 1944
+  channels: 3
+  format: JPEG
+  size_kb: 3484.8
+  notes: Hamparan terasering sawah bertingkat hijau subur dan padang rumput lereng perbukitan (difoto 30 Mei 2011, diunggah 29 November 2011 oleh Dohduhdah)
+
+- title: Golden Landscape Sunset
+  creator: Tomas Sobek
+  year: 2010
+  category: content
+  tag: senja
+  label_id: "Senja (Golden Sunset Landscape)"
+  filename: landscape_sunset.jpg
+  path: data/content/landscape_sunset.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:Landscape_sunset.jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/d/df/Landscape_sunset.jpg
+  license: Creative Commons CC0 1.0 Universal Public Domain Dedication
+  dimensions:
+    width: 4608
+    height: 3456
+  channels: 3
+  format: JPEG
+  size_kb: 3443.2
+  notes: Pemandangan matahari terbenam dengan pendar langit jingga-keemasan dan siluet bukit
+
+- title: Misty Evergreen Interior Forest
+  creator: Kalen Emsley
+  year: 2016
+  category: content
+  tag: hutan_pedalaman
+  label_id: "Hutan Pedalaman (Interior Misty Forest)"
+  filename: landscape_interior_forest.jpg
+  path: data/content/landscape_interior_forest.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:Cloudy_forest_(Unsplash).jpg
+  download_url: https://upload.wikimedia.org/wikipedia/commons/5/5f/Cloudy_forest_%28Unsplash%29.jpg
+  license: Creative Commons CC0 1.0 Universal Public Domain Dedication
+  dimensions:
+    width: 5799
+    height: 3866
+  channels: 3
+  format: JPEG
+  size_kb: 9403.3
+  notes: Pedalaman hutan pinus/cemara berkabut tebal dengan kanopi pohon rapat dan lantai hutan berlumut
+
 style_images:
 - title: Wheat Field with Cypresses
   creator: Vincent van Gogh
   year: 1889
   category: style
+  tag: van_gogh
+  label_id: "Vincent van Gogh (Wheat Field with Cypresses)"
   filename: style_van_gogh.jpg
   path: data/style/style_van_gogh.jpg
   source_url: https://www.metmuseum.org/art/collection/search/436535
@@ -60,10 +173,14 @@ style_images:
   channels: 3
   format: JPEG
   size_kb: 8096.87
+  notes: Pasca-Impresionisme dengan sapuan kuas tebal (impasto), langit berputar, warna toska, kuning emas, hijau cypress
+
 - title: The Great Wave off Kanagawa (Under the Wave off Kanagawa)
   creator: Katsushika Hokusai
   year: ca. 1830-1832
   category: style
+  tag: hokusai
+  label_id: "Katsushika Hokusai (The Great Wave)"
   filename: style_hokusai.jpg
   path: data/style/style_hokusai.jpg
   source_url: https://commons.wikimedia.org/wiki/File:Tsunami_by_hokusai_19th_century.jpg
@@ -75,10 +192,14 @@ style_images:
   channels: 3
   format: JPEG
   size_kb: 2299.01
+  notes: Ukiyo-e (cetak balok kayu Jepang) dengan gradasi biru indigo (Prussian blue), garis kontur tajam, buih ombak putih
+
 - title: Composition 8 (Komposition 8)
   creator: Wassily Kandinsky
   year: 1923
   category: style
+  tag: kandinsky
+  label_id: "Wassily Kandinsky (Composition 8)"
   filename: style_kandinsky.jpg
   path: data/style/style_kandinsky.jpg
   source_url: https://commons.wikimedia.org/wiki/File:Kandinsky_-_Composition_8,_July_1923.jpg
@@ -90,3 +211,4 @@ style_images:
   channels: 3
   format: JPEG
   size_kb: 3106.13
+  notes: Seni abstrak geometris Bauhaus dengan lingkaran konsentris, bujur sangkar, garis silang, dan warna primer cerah

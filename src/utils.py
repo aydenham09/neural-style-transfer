@@ -180,23 +180,17 @@ def image_to_tensor(
 def is_normalized(tensor: torch.Tensor) -> bool:
     """Check if a tensor has already undergone ImageNet normalization.
 
-    Detects via explicit flag attribute `_is_imagenet_normalized` or negative value inspection.
+    Detects via explicit flag attribute `_is_imagenet_normalized`.
+    NOTE: Following the project contract, range-based heuristic inspection
+    (e.g. checking min < -0.05) is strictly NOT used to detect normalization state.
 
     Args:
         tensor: PyTorch tensor to inspect.
 
     Returns:
-        bool indicating whether tensor is normalized.
+        bool indicating whether tensor is marked as normalized.
     """
-    if getattr(tensor, "_is_imagenet_normalized", False) is True:
-        return True
-
-    # ImageNet normalized tensors have values with negative numbers (e.g. min around -2.11)
-    # whereas raw tensors strictly reside in [0.0, 1.0].
-    if tensor.min().item() < -0.05:
-        return True
-
-    return False
+    return getattr(tensor, "_is_imagenet_normalized", False) is True
 
 
 def normalize_imagenet(tensor: torch.Tensor) -> torch.Tensor:
@@ -242,20 +236,16 @@ def normalize_imagenet(tensor: torch.Tensor) -> torch.Tensor:
 def denormalize_imagenet(tensor: torch.Tensor) -> torch.Tensor:
     """Reverse ImageNet normalization, converting back to raw values in [0, 1].
 
+    Calculates: denorm = clamp(tensor * std + mean, 0.0, 1.0)
+
     Args:
-        tensor: Normalized PyTorch tensor of shape [1, 3, H, W] (or unnormalized if already in [0, 1]).
+        tensor: Normalized PyTorch tensor of shape [1, 3, H, W].
 
     Returns:
         Raw torch.Tensor clamped to [0.0, 1.0] with _is_imagenet_normalized=False.
     """
     if tensor.ndim != 4 or tensor.shape[1] != 3:
         raise ValueError(f"Expected tensor of shape [B, 3, H, W], got {list(tensor.shape)}")
-
-    # If tensor is not normalized, clamp and return copy
-    if not is_normalized(tensor):
-        raw = torch.clamp(tensor.clone(), 0.0, 1.0)
-        raw._is_imagenet_normalized = False  # type: ignore[attr-defined]
-        return raw
 
     mean = torch.tensor(IMAGENET_MEAN, device=tensor.device, dtype=tensor.dtype).view(1, 3, 1, 1)
     std = torch.tensor(IMAGENET_STD, device=tensor.device, dtype=tensor.dtype).view(1, 3, 1, 1)

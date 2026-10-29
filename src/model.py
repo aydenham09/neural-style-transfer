@@ -21,10 +21,11 @@ Architecture & Design Principles:
    - Consistent Post-ReLU features: We capture activations after the ReLU activation.
    - In-place ReLU disabled: inplace=False is enforced on all ReLUs to prevent
      gradient corruption during input-image optimization.
-4. Robust ImageNet Normalization:
-   - Exact single normalization guarantee: Automatically inspects tensor value
-     distributions so normalization is never duplicated, even if custom tensor
-     attributes are stripped by PyTorch operations.
+4. Clear ImageNet Normalization Contract:
+   - The input to VGG19FeatureExtractor MUST be an RGB float tensor in [0.0, 1.0].
+   - ImageNet normalization ((x - mean) / std) is performed exactly once inside the
+     extractor (in forward()).
+   - Range-based heuristics (inspecting min/max values) are strictly avoided.
 """
 
 from __future__ import annotations
@@ -89,43 +90,20 @@ MAX_REQUIRED_LAYER_INDEX = 29
 
 
 def is_tensor_imagenet_normalized(tensor: torch.Tensor) -> bool:
-    """Robustly detect whether an image tensor has already undergone ImageNet normalization.
+    """Check explicit metadata flag _is_imagenet_normalized.
 
-    Inspection Strategy:
-    1. Check explicit metadata attribute `_is_imagenet_normalized` if present.
-    2. Fallback to numerical value inspection:
-       - Raw RGB image tensors strictly reside in [0.0, 1.0].
-       - ImageNet normalization subtracts mean ([0.485, 0.456, 0.406]) and divides
-         by std ([0.229, 0.224, 0.225]). As a result:
-         - Values for dark regions become negative (min reaches ~ -2.11).
-         - Values for bright regions exceed 1.0 (max reaches ~ +2.64).
-       - If min < -0.05 or max > 1.5, the tensor is undeniably in normalized space.
-
-    This ensures that even when PyTorch operations (cloning, slicing, arithmetic,
-    requires_grad_) strip Python-level attributes, double normalization is prevented.
+    NOTE: In accordance with the explicit normalization contract, value-range heuristics
+    (inspecting min/max values) are strictly NOT used to determine normalization state.
+    The contractual expectation is that inputs to the extractor are RGB float [0.0, 1.0],
+    and ImageNet normalization is performed exactly once inside the extractor.
 
     Args:
-        tensor: Image tensor of shape [B, 3, H, W].
+        tensor: PyTorch tensor to inspect.
 
     Returns:
-        bool: True if tensor is already normalized, False if raw [0, 1].
+        bool: True if marked with _is_imagenet_normalized=True, False otherwise.
     """
-    if getattr(tensor, "_is_imagenet_normalized", None) is True:
-        return True
-
-    if getattr(tensor, "_is_imagenet_normalized", None) is False:
-        # Explicitly marked as raw, verify numerical bounds
-        if tensor.min().item() >= -0.05 and tensor.max().item() <= 1.5:
-            return False
-
-    # Attribute is missing or unverified — inspect numerical range
-    t_min = tensor.min().item()
-    t_max = tensor.max().item()
-
-    if t_min < -0.05 or t_max > 1.5:
-        return True
-
-    return False
+    return getattr(tensor, "_is_imagenet_normalized", False) is True
 
 
 class VGG19FeatureExtractor(nn.Module):
@@ -229,19 +207,22 @@ class VGG19FeatureExtractor(nn.Module):
         self,
         x: torch.Tensor,
         layers: Optional[Sequence[str]] = None,
-        normalize: Optional[bool] = None,
+        normalize: bool = True,
     ) -> Dict[str, torch.Tensor]:
         """Extract intermediate post-ReLU features from specified VGG-19 layers.
 
+        Contract:
+            Input `x` MUST be an RGB float tensor with values in [0.0, 1.0] and shape
+            [B, 3, H, W]. When normalize=True (the default), ImageNet normalization
+            ((x - mean) / std) is performed exactly once inside this extractor before
+            passing activations through convolutional layers.
+
         Args:
-            x: Input image tensor of shape [B, 3, H, W]. May be raw [0, 1] or already normalized.
+            x: Input RGB image tensor of shape [B, 3, H, W] in range [0, 1].
             layers: Specific layer names to extract. If None, extracts union of
                     content_layer and style_layers.
-            normalize: Normalization control:
-                       - None (default): Auto-detect whether x needs ImageNet normalization.
-                         If already normalized, avoids double normalization.
-                       - True: Force ImageNet normalization.
-                       - False: Do not normalize (assume input is pre-normalized or raw intentionally).
+            normalize: Whether to apply ImageNet normalization (default: True).
+                       Set False only if tensor is pre-normalized intentionally.
 
         Returns:
             Dictionary mapping layer names to their corresponding post-ReLU activation tensors.
@@ -253,15 +234,9 @@ class VGG19FeatureExtractor(nn.Module):
         if x.device != self.device:
             x = x.to(self.device)
 
-        # 1. ImageNet Normalization Handling
-        if normalize is None:
-            # Auto-detect: only normalize if not already normalized
-            if not is_tensor_imagenet_normalized(x):
-                x = self.normalize(x)
-        elif normalize is True:
-            # Forced normalization
+        # 1. ImageNet Normalization Contract: normalize exactly once if normalize=True
+        if normalize:
             x = self.normalize(x)
-        # If normalize is False: pass x as-is
 
         # 2. Resolve requested layers and map to features indices
         target_layers = list(layers or ([self.content_layer] + self.style_layers))
@@ -294,13 +269,13 @@ class VGG19FeatureExtractor(nn.Module):
     def get_content_feature(
         self,
         x: torch.Tensor,
-        normalize: Optional[bool] = None,
+        normalize: bool = True,
     ) -> torch.Tensor:
         """Extract the content feature map (conv4_2 / relu4_2).
 
         Args:
-            x: Input image tensor [B, 3, H, W].
-            normalize: Normalization control (None=auto, True=force, False=skip).
+            x: Input RGB image tensor [B, 3, H, W] in [0, 1].
+            normalize: Normalization control (default: True, normalize exactly once).
 
         Returns:
             Content feature tensor of shape [B, 512, H/8, W/8].
@@ -311,13 +286,13 @@ class VGG19FeatureExtractor(nn.Module):
     def get_style_features(
         self,
         x: torch.Tensor,
-        normalize: Optional[bool] = None,
+        normalize: bool = True,
     ) -> Dict[str, torch.Tensor]:
         """Extract the style feature maps (conv1_1, conv2_1, conv3_1, conv4_1, conv5_1).
 
         Args:
-            x: Input image tensor [B, 3, H, W].
-            normalize: Normalization control (None=auto, True=force, False=skip).
+            x: Input RGB image tensor [B, 3, H, W] in [0, 1].
+            normalize: Normalization control (default: True, normalize exactly once).
 
         Returns:
             Dictionary mapping each style layer name to its feature tensor.
